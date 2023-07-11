@@ -73,9 +73,8 @@ fun app() {
             painter = painterResource(id = R.drawable.app_logo),
             contentDescription = "app logo",
             colorFilter = ColorFilter.tint(color = Color.Black),
-            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .clip(RoundedCornerShape(50.dp))
+                .size(100.dp)
         )
     }
     /**
