@@ -127,14 +127,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-@Composable
-fun CustomButton(text: String) {
-    Button(
-        onClick = { },
-        content = {
-            Text(text = text)
-        },
-        shape = ButtonDefaults.elevatedShape
-    )
-}
