@@ -3,50 +3,34 @@
 package com.akash.jetpack_compose_demo
 
 import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.akash.jetpack_compose_demo.ui.component.Author
+import com.akash.jetpack_compose_demo.ui.component.CustomCard
 import com.akash.jetpack_compose_demo.ui.theme.JetpackcomposedemoTheme
 import com.akash.jetpack_compose_demo.ui.theme.LatoFont
 
@@ -58,179 +42,47 @@ class MainActivity : ComponentActivity() {
             JetpackcomposedemoTheme {
                 Column(
                     modifier = Modifier.fillMaxSize(),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(height = 224.dp, width = 224.dp)
-                            .padding(start = 5.dp, top = 10.dp, end = 5.dp, bottom = 10.dp)
-                            .clip(CircleShape)
-                            .border(3.dp, Color.Red, CircleShape)
-                            .background(color = Color.Blue, shape = RectangleShape)
-                            .clickable {
-                                Log.d("test", "Blue Box is clicked")
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Blue Box is clicked",
-                                    Toast.LENGTH_SHORT
-                                )
-                            },
-                        contentAlignment = Alignment.Center,
-                    ) {
-
-                        Text(
-                            text = "My Fully Circled Item",
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(5.dp),
-                            fontFamily = LatoFont,
-                            fontSize = 20.sp
-                        )
-                        Icon(
-                            painter = painterResource(
-                                id = R.drawable.login_logo,
-                            ),
-                            modifier = Modifier.size(125.dp),
-                            contentDescription = "logo"
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(5.dp))
-
-                    Box(
-                        modifier = Modifier
-                            .size(height = 224.dp, width = 224.dp)
-                            .padding(start = 5.dp, top = 10.dp, end = 5.dp, bottom = 10.dp)
-                            .clip(RoundedCornerShape(10.dp))
-                            .border(5.dp, Color.Green, RoundedCornerShape(10.dp))
-                            .background(color = Color.Transparent, shape = RectangleShape)
-                            .clickable {
-                                Log.d("test", "Transparent Box is clicked")
-                                Toast.makeText(
-                                    applicationContext,
-                                    "Transparent Box is clicked",
-                                    Toast.LENGTH_SHORT
-                                )
-                            },
-                        contentAlignment = Alignment.Center,
-                    ) {
-
-                        Text(
-                            text = "My Rounded Corner Item",
-                            modifier = Modifier
-                                .align(Alignment.Center)
-                                .padding(12.dp),
-                            fontFamily = LatoFont,
-                            fontSize = 17.sp
-                        )
-                    }
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 5.dp, vertical = 10.dp),
-                    verticalArrangement = Arrangement.spacedBy(50.dp, Alignment.CenterVertically)
-                ) {
-                    Text(
-                        text = "Career Objective",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Text(
-                        text = "Education",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Text(
-                        text = "Work Experience",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Text(
-                        text = "Skills",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                }
-
-                Row(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 5.dp, vertical = 10.dp),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.SpaceEvenly
-                ) {
-                    Text(
-                        text = "Home",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Text(
-                        text = "About",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Text(
-                        text = "Contact",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Text(
-                        text = "Career",
-                        fontFamily = LatoFont,
-                        fontSize = 20.sp
-                    )
-                    Button(
-                        onClick = { },
-                        content = {
-                            Text(text = "Click me")
-                        },
-                        shape = ButtonDefaults.elevatedShape
-                    )
-                }
-
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(horizontal = 5.dp, vertical = 10.dp),
-                    verticalArrangement = Arrangement.Bottom,
+                    verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    MyStateFulTextField("This is a stateful Textbox")
-                    Spacer(modifier = Modifier.size(8.dp))
-                    var textState by rememberSaveable {
-                        mutableStateOf("")
-                    }
-                    val namesListState = remember {
-                        mutableStateListOf<String>()
-                    }
-//                    LazyColumn(
-//                        modifier = Modifier
-//                            .fillMaxWidth()
-//                            .weight(1f),
-//                    ) {
-//                        items(namesListState.size) {
-//                            Text(text = namesListState[it])
-//                        }
-//                    }
-                    MyStatelessTextField(
-                        textState,
-                        onChange = {
-                            textState = it
-                        },
-                        "This is a stateless Textbox",
-                        onAddClick = {
-                            namesListState.add(textState)
-                            textState = ""
-                        }
+                    Text(
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .align(Alignment.CenterHorizontally),
+                        text = stringResource(id = R.string.app_name)
+                            .plus(" ")
+                            .repeat(20),
+                        maxLines = 3,
+                        overflow = TextOverflow.Ellipsis,
+                        fontFamily = LatoFont,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Justify
                     )
-                    Spacer(modifier = Modifier.size(8.dp))
-                    FloatingActionButton(onClick = { /*TODO*/ }) {
-                        Icon(
-                            painter = painterResource(id = R.drawable.login_footer),
-                            contentDescription = "floating button logo"
+
+                    val annotatedString = buildAnnotatedString {
+                        blueGradientText(stringResource(id = R.string.gradient_text))
+                    }
+
+                    Text(text = annotatedString)
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.White.copy(alpha = 0.8f)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CustomCard(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .background(Color.Transparent),
+                            image = R.drawable.login_background,
+                            title = stringResource(id = R.string.card_content_title),
+                            text = stringResource(id = R.string.card_content_text),
+                            author = Author(
+                                name = stringResource(id = R.string.card_content_author_name),
+                                job = stringResource(id = R.string.card_content_author_job_title),
+                                image = R.drawable.app_logo
+                            )
                         )
                     }
                 }
@@ -239,46 +91,23 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun MyStateFulTextField(hint: String) {
-    var nameState by remember {
-        mutableStateOf("")
+@OptIn(ExperimentalTextApi::class)
+private fun AnnotatedString.Builder.blueGradientText(text: String) {
+    withStyle(
+        style = SpanStyle(
+            brush = Brush.linearGradient(
+                colors = listOf(
+                    Color(0xFF2788C7),
+                    Color(0xFF00BBD4),
+                    Color(0xFF2788C7),
+                    Color(0xFF00BBD4),
+                )
+            ),
+            fontFamily = LatoFont,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold
+        )
+    ) {
+        append(text)
     }
-    TextField(
-        value = nameState,
-        onValueChange = {
-            nameState = it
-        },
-        label = {
-            Text(text = hint)
-        },
-        modifier = Modifier.fillMaxWidth(),
-    )
-}
-
-@Composable
-fun MyStatelessTextField(
-    text: String,
-    onChange: (String) -> Unit,
-    hint: String,
-    onAddClick: () -> Unit
-) {
-    TextField(
-        value = text,
-        onValueChange = { onChange(it) },
-        label = {
-            Text(text = hint)
-        },
-        modifier = Modifier.fillMaxWidth(),
-        trailingIcon = {
-            Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "this is an add icon",
-                modifier = Modifier.clickable {
-                    Log.d("test", text)
-                    onAddClick
-                }
-            )
-        }
-    )
 }
