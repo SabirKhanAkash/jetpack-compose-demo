@@ -1,219 +1,242 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.akash.jetpack_compose_demo
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
-import com.akash.jetpack_compose_demo.ui.theme.JetpackcomposedemoTheme
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.ExperimentalTextApi
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.akash.jetpack_compose_demo.ui.component.Author
+import com.akash.jetpack_compose_demo.ui.component.CustomCard
+import com.akash.jetpack_compose_demo.ui.theme.JetpackcomposedemoTheme
+import com.akash.jetpack_compose_demo.ui.theme.LatoFont
 
+@OptIn(ExperimentalMaterial3Api::class)
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            MaterialTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
+            JetpackcomposedemoTheme {
+                // Outlined Textbox's Text state
+                var keyTextState by rememberSaveable {
+                    mutableStateOf("")
+                }
+
+                // key visibility state
+                var isKeyVisible by rememberSaveable {
+                    mutableStateOf(false)
+                }
+
+                var tintColor by remember {
+                    mutableStateOf(Color.White)
+                }
+
+                // Proceed Button State
+                var enableState by remember {
+                    mutableStateOf(true)
+                }
+
+                var cardContentBody by rememberSaveable {
+                    mutableStateOf("This is the main background of our upcoming android project. It is going to be developed in Kotlin. Also we are using latest jetpack compose for the UI instead of old traditional XML.")
+                }
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    app()
+                    // Random Texts
+                    Text(
+                        modifier = Modifier
+                            .padding(20.dp)
+                            .align(Alignment.CenterHorizontally),
+                        text = stringResource(id = R.string.app_name)
+                            .plus(" ")
+                            .repeat(20),
+                        maxLines = 3,
+                        color = Color.White,
+                        overflow = TextOverflow.Ellipsis,
+                        fontFamily = LatoFont,
+                        fontSize = 18.sp,
+                        textAlign = TextAlign.Justify
+                    )
+
+                    // Gradient Text
+                    val annotatedString = buildAnnotatedString {
+                        blueGradientText(stringResource(id = R.string.gradient_text))
+                    }
+
+                    Text(text = annotatedString)
+
+                    // Custom Card
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(Color.Transparent),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        CustomCard(
+                            modifier = Modifier
+                                .padding(20.dp)
+                                .background(Color.Transparent),
+                            image = R.drawable.login_background,
+                            title = stringResource(id = R.string.card_content_title),
+                            text = cardContentBody,
+                            author = Author(
+                                name = stringResource(id = R.string.card_content_author_name),
+                                job = stringResource(id = R.string.card_content_author_job_title),
+                                image = R.drawable.app_logo
+                            )
+                        )
+                    }
+
+                    // new line
+                    Spacer(modifier = Modifier.size(10.dp))
+
+                    // Outlined Textbox
+                    OutlinedTextField(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .background(color = Color.Transparent)
+                            .padding(horizontal = 20.dp),
+                        value = keyTextState,
+                        onValueChange = {
+                            keyTextState = it
+                        },
+                        placeholder = {
+                            Text(
+                                text = stringResource(id = R.string.secret_key_textbox_prompt),
+                                color = Color.White
+                            )
+                        },
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            containerColor = Color.Transparent,
+                            cursorColor = Color.White,
+                            textColor = Color.White
+                        ),
+                        singleLine = true,
+                        leadingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Lock,
+                                contentDescription = "lock icon",
+                                tint = Color.White
+                            )
+                        },
+                        trailingIcon = {
+                            Icon(
+                                imageVector = Icons.Default.Info,
+                                contentDescription = "show key icon",
+                                tint = tintColor,
+                                modifier = Modifier.clickable {
+                                    isKeyVisible = !isKeyVisible
+                                    tintColor =
+                                        if (tintColor == Color.DarkGray) Color.White else Color.DarkGray
+                                }
+                            )
+                        },
+                        visualTransformation = if (isKeyVisible) VisualTransformation.None else PasswordVisualTransformation()
+                    )
+
+                    // new line
+                    Spacer(modifier = Modifier.size(15.dp))
+
+                    // Proceed Button
+                    Button(
+                        shape = RoundedCornerShape(15.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color.Blue,
+                            contentColor = Color.White,
+                            disabledContainerColor = Color.LightGray,
+                            disabledContentColor = Color.DarkGray
+                        ),
+                        enabled = enableState,
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 15.dp,
+                            hoveredElevation = 10.dp,
+                            pressedElevation = 5.dp,
+                            disabledElevation = 0.dp
+                        ),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                            .padding(horizontal = 20.dp),
+                        onClick = {
+                            enableState = !enableState
+                            cardContentBody =
+                                if (keyTextState.isNotEmpty()) keyTextState else "This is the main background of our upcoming android project. It is going to be developed in Kotlin. Also we are using latest jetpack compose for the UI instead of old traditional XML."
+                        }
+
+                    ) {
+                        Text(text = stringResource(id = R.string.proceed_button))
+                    }
                 }
             }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun app() {
-    /**
-     * Background Image
-     */
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .fillMaxHeight()
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.login_background),
-            contentDescription = "background",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-        )
-    }
-    /**
-     *Language Changer
-     */
-    Row(
-        modifier = Modifier
-            .padding(all = 20.dp)
-            .fillMaxWidth()
-    ) {
-        Text(
-            text = "English (US)",
-            color = Color.White,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-        )
-    }
-    /**
-     *App Logo
-     */
-    Row(
-        modifier = Modifier
-            .wrapContentSize(Alignment.TopCenter)
-            .padding(top = 120.dp)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.login_logo),
-            contentDescription = "app logo",
-            modifier = Modifier
-                .size(150.dp)
-                .fillMaxWidth()
-                .wrapContentSize(Alignment.Center)
-        )
-    }
-    /**
-     * Username TextField
-     */
-    Row(
-        modifier = Modifier
-            .padding(20.dp, 300.dp, 20.dp, 0.dp)
-            .fillMaxWidth(),
-    ) {
-        var username by rememberSaveable {
-            mutableStateOf("")
-        }
-        OutlinedTextField(
-            value = username,
-            onValueChange = { username = it },
-            textStyle = TextStyle(color = Color.White),
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White.copy(alpha = 0.8f),
-                unfocusedLabelColor = Color.White.copy(alpha = 0.8f),
-                focusedLabelColor = Color.White.copy(alpha = 0.8f),
-                cursorColor = Color.White
+@OptIn(ExperimentalTextApi::class)
+private fun AnnotatedString.Builder.blueGradientText(text: String) {
+    withStyle(
+        style = SpanStyle(
+            brush = Brush.linearGradient(
+                colors = listOf(
+                    Color(0xFF2788C7),
+                    Color(0xFF00BBD4),
+                    Color(0xFF2788C7),
+                    Color(0xFF00BBD4),
+                )
             ),
-            label = { Text("Employee ID")},
-            modifier = Modifier
-                .fillMaxWidth()
+            fontFamily = LatoFont,
+            fontSize = 25.sp,
+            fontWeight = FontWeight.Bold
         )
-    }
-    /**
-     * Password TextField
-     */
-    Row(
-        modifier = Modifier.padding(20.dp,380.dp,20.dp,0.dp),
     ) {
-        var password by rememberSaveable {
-            mutableStateOf("")
-        }
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Password") },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
-                focusedBorderColor = Color.White.copy(alpha = 0.8f),
-                unfocusedLabelColor = Color.White.copy(alpha = 0.8f),
-                focusedLabelColor = Color.White.copy(alpha = 0.8f),
-                cursorColor = Color.White
-            ),
-            visualTransformation = PasswordVisualTransformation(),
-            textStyle = TextStyle(color = Color.White),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            modifier = Modifier.fillMaxWidth()
-        )
-    }
-    /**
-     * Login Button
-     */
-    Row(
-        modifier = Modifier
-            .padding(top = 470.dp)
-            .wrapContentSize(Alignment.TopCenter)
-            .fillMaxWidth()
-    ) {
-        Button(
-            modifier = Modifier
-                .padding(start = 20.dp, end = 20.dp)
-                .fillMaxWidth()
-                .height(45.dp),
-            onClick = { /*TODO*/ },
-            shape = RoundedCornerShape(size = 8.dp),
-            colors = ButtonDefaults.buttonColors(
-                contentColor = Color.White,
-                containerColor = Color.Blue
-            )
-        ) {
-            Text(text = "LOG IN")
-        }
-    }
-    /**
-     *App Footer
-     */
-    Row(
-        modifier = Modifier
-            .padding(bottom = 10.dp)
-            .wrapContentSize(Alignment.BottomCenter)
-    ) {
-        Image(
-            painter = painterResource(id = R.drawable.login_footer),
-            contentDescription = "footer",
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .size(80.dp)
-                .fillMaxWidth()
-        )
-    }
-}
-
-@Preview(showBackground = true, showSystemUi = true)
-@Composable
-fun appPreview() {
-    MaterialTheme {
-        app()
+        append(text)
     }
 }
