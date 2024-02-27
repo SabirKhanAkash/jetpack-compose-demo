@@ -1,10 +1,3 @@
 <resources>
     <string name="app_name">jetpack-compose-demo</string>
-    <string name="card_content_title">Custom Card</string>
-    <string name="card_content_author_name">Sabir Khan Akash</string>
-    <string name="card_content_author_job_title">Software Engineer</string>
-    <string name="card_content_text">This is the main background of our upcoming android project. It is going to be developed in Kotlin. Also we are using latest jetpack compose for the UI instead of old traditional XML. This is the main background of our upcoming android project. It is going to be developed in Kotlin. Also we are using latest jetpack compose for the UI instead of old traditional XML.</string>
-    <string name="gradient_text">This is a gradient text</string>
-    <string name="proceed_button">Proceed</string>
-    <string name="secret_key_textbox_prompt">Enter Content Description</string>
 </resources>
