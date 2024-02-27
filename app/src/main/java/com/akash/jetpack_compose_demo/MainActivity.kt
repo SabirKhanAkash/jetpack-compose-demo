@@ -6,7 +6,6 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,13 +22,10 @@ import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ButtonElevation
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -38,7 +34,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -76,7 +71,7 @@ class MainActivity : ComponentActivity() {
                 }
 
                 var tintColor by remember {
-                    mutableStateOf(Color.Black)
+                    mutableStateOf(Color.White)
                 }
 
                 // Proceed Button State
@@ -89,7 +84,9 @@ class MainActivity : ComponentActivity() {
                 }
 
                 Column(
-                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -102,6 +99,7 @@ class MainActivity : ComponentActivity() {
                             .plus(" ")
                             .repeat(20),
                         maxLines = 3,
+                        color = Color.White,
                         overflow = TextOverflow.Ellipsis,
                         fontFamily = LatoFont,
                         fontSize = 18.sp,
@@ -119,7 +117,7 @@ class MainActivity : ComponentActivity() {
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .background(Color.White.copy(alpha = 0.8f)),
+                            .background(Color.Transparent),
                         contentAlignment = Alignment.Center
                     ) {
                         CustomCard(
@@ -144,24 +142,29 @@ class MainActivity : ComponentActivity() {
                     OutlinedTextField(
                         modifier = Modifier
                             .fillMaxWidth()
+                            .background(color = Color.Transparent)
                             .padding(horizontal = 20.dp),
                         value = keyTextState,
                         onValueChange = {
                             keyTextState = it
                         },
                         placeholder = {
-                            Text(text = stringResource(id = R.string.secret_key_textbox_prompt))
+                            Text(
+                                text = stringResource(id = R.string.secret_key_textbox_prompt),
+                                color = Color.White
+                            )
                         },
-                        colors = TextFieldDefaults.textFieldColors(
-                            containerColor = Color.LightGray,
-                            cursorColor = Color.Blue,
-                            textColor = Color.Black
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            containerColor = Color.Transparent,
+                            cursorColor = Color.White,
+                            textColor = Color.White
                         ),
                         singleLine = true,
                         leadingIcon = {
                             Icon(
                                 imageVector = Icons.Default.Lock,
-                                contentDescription = "lock icon"
+                                contentDescription = "lock icon",
+                                tint = Color.White
                             )
                         },
                         trailingIcon = {
@@ -171,11 +174,12 @@ class MainActivity : ComponentActivity() {
                                 tint = tintColor,
                                 modifier = Modifier.clickable {
                                     isKeyVisible = !isKeyVisible
-                                    tintColor = if(tintColor == Color.Blue) Color.Black else Color.Blue
+                                    tintColor =
+                                        if (tintColor == Color.DarkGray) Color.White else Color.DarkGray
                                 }
                             )
                         },
-                        visualTransformation = if(isKeyVisible) VisualTransformation.None else PasswordVisualTransformation()
+                        visualTransformation = if (isKeyVisible) VisualTransformation.None else PasswordVisualTransformation()
                     )
 
                     // new line
@@ -203,7 +207,8 @@ class MainActivity : ComponentActivity() {
                             .padding(horizontal = 20.dp),
                         onClick = {
                             enableState = !enableState
-                            cardContentBody = if(keyTextState.isNotEmpty()) keyTextState else "This is the main background of our upcoming android project. It is going to be developed in Kotlin. Also we are using latest jetpack compose for the UI instead of old traditional XML."
+                            cardContentBody =
+                                if (keyTextState.isNotEmpty()) keyTextState else "This is the main background of our upcoming android project. It is going to be developed in Kotlin. Also we are using latest jetpack compose for the UI instead of old traditional XML."
                         }
 
                     ) {

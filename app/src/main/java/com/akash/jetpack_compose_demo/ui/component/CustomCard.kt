@@ -2,7 +2,9 @@ package com.akash.jetpack_compose_demo.ui.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.animateContentSize
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -58,7 +60,8 @@ fun CustomCard(
         shape = MaterialTheme.shapes.extraLarge,
         colors = CardDefaults.cardColors(
             containerColor = Color.Black
-        )
+        ),
+        border = BorderStroke(1.dp, color = Color.LightGray)
     ) {
         // Parent Body
         Column {
@@ -74,13 +77,14 @@ fun CustomCard(
             // Content Body
             Column(
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
+                    .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
                 // Header Text
                 Text(
+                    modifier = Modifier
+                        .padding(start = 20.dp, top = 20.dp, bottom = 0.dp, end = 20.dp),
                     text = title,
                     color = Color.White,
                     fontSize = 22.sp,
@@ -101,9 +105,16 @@ fun CustomCard(
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Justify,
                     fontWeight = FontWeight.Medium,
-                    modifier = Modifier.clickable {
-                        showFullText = !showFullText
-                    }
+                    modifier = Modifier
+                        .padding(
+                            start = 20.dp,
+                            top = 0.dp,
+                            bottom = 0.dp,
+                            end = 20.dp
+                        )
+                        .clickable {
+                            showFullText = !showFullText
+                        }
                 )
 
                 // new line
@@ -111,7 +122,10 @@ fun CustomCard(
 
                 // Author Section
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(color = Color.DarkGray)
+                        .padding(20.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
                 ) {
